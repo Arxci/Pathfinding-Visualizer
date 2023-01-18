@@ -1,0 +1,16 @@
+.header {
+	height: 6rem;
+
+	&__nav {
+		margin: auto;
+		height: stretch;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		.title {
+			color: $white;
+			font-size: 2rem;
+		}
+	}
+}
