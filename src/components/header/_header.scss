@@ -1,15 +1,16 @@
 .header {
-	height: 6rem;
+	height: $navbar-height;
+	background-color: $dark-grey;
+	position: sticky;
 
 	&__nav {
 		margin: auto;
-		height: stretch;
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		height: stretch;
 
-		.title {
-			color: $white;
+		&__title {
+			color: $text-primary;
 			font-size: 2rem;
 		}
 	}

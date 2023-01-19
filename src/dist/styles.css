@@ -1,3 +1,119 @@
+.has-fade {
+  visibility: hidden;
+}
+
+@-webkit-keyframes fade-in {
+  from {
+    visibility: hidden;
+    opacity: 0;
+  }
+  1% {
+    visibility: visible;
+    opacity: 0;
+  }
+  to {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    visibility: hidden;
+    opacity: 0;
+  }
+  1% {
+    visibility: visible;
+    opacity: 0;
+  }
+  to {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+.fade-in {
+  -webkit-animation: fade-in 300ms ease-in-out forwards;
+          animation: fade-in 300ms ease-in-out forwards;
+}
+
+@-webkit-keyframes fade-out {
+  from {
+    visibility: visible;
+    opacity: 1;
+  }
+  99% {
+    visibility: visible;
+    opacity: 0;
+  }
+  to {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    visibility: visible;
+    opacity: 1;
+  }
+  99% {
+    visibility: visible;
+    opacity: 0;
+  }
+  to {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+.fade-out {
+  -webkit-animation: fade-out 300ms ease-in-out forwards;
+          animation: fade-out 300ms ease-in-out forwards;
+}
+
+@-webkit-keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+.rotate-forward {
+  -webkit-animation: rotate 150ms ease-in-out forwards;
+          animation: rotate 150ms ease-in-out forwards;
+}
+
+@-webkit-keyframes rotate-back {
+  from {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes rotate-back {
+  from {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+.rotate-back {
+  -webkit-animation: rotate-back 150ms ease-in-out forwards;
+          animation: rotate-back 150ms ease-in-out forwards;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -8,27 +124,127 @@
 }
 
 .container {
-  max-width: 75rem;
+  max-width: 100rem;
+  padding: 0 2rem;
 }
 
 .header {
-  height: 6rem;
+  height: 8rem;
+  background-color: #212121;
+  position: -webkit-sticky;
+  position: sticky;
 }
 .header__nav {
   margin: auto;
+  display: flex;
+  align-items: center;
   height: -webkit-fill-available;
   height: -moz-available;
   height: stretch;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
-.header__nav .title {
-  color: #ffffff;
+.header__nav__title {
+  color: #01baef;
   font-size: 2rem;
 }
 
 .app {
-  background-color: #280659;
+  background-color: #fafafa;
   min-height: 100vh;
+}
+.app__pages {
+  z-index: 1;
+}
+
+.filters {
+  background-color: #2e2e2e;
+  height: 4rem;
+}
+.filters__list {
+  margin: auto;
+  display: flex;
+  align-items: center;
+  height: -webkit-fill-available;
+  height: -moz-available;
+  height: stretch;
+  gap: 10px;
+}
+
+.dropdown {
+  width: 12.5rem;
+  height: 2.5rem;
+  position: relative;
+}
+.dropdown__name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.5rem;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: stretch;
+  height: -webkit-fill-available;
+  height: -moz-available;
+  height: stretch;
+}
+.dropdown__name > p {
+  color: #ffffff;
+  font-size: 14px;
+}
+.dropdown__btn {
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: stretch;
+  height: -webkit-fill-available;
+  height: -moz-available;
+  height: stretch;
+  border: none;
+  background-color: #212121;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.dropdown__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+.dropdown__icon__flipped {
+  -webkit-animation: fade-out 300ms ease-in-out forwards;
+          animation: fade-out 300ms ease-in-out forwards;
+}
+.dropdown__icon__normal {
+  -webkit-animation: fade-out 300ms ease-in-out forwards;
+          animation: fade-out 300ms ease-in-out forwards;
+}
+.dropdown__items {
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: stretch;
+  position: absolute;
+  background-color: #212121;
+  top: calc(100% + 0.75rem);
+  border-radius: 5px;
+}
+.dropdown__list {
+  padding: 0.5rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dropdown__item {
+  border-radius: 5px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 0.5rem 0.5rem;
+  transition: color 150ms ease-in-out, background-color 150ms ease-in-out;
+}
+.dropdown__item > p {
+  font-size: 14px;
+}
+.dropdown__item:hover {
+  color: #ffffff;
+  background-color: #2e2e2e;
+}
+.dropdown__item.active {
+  color: #01baef;
 }/*# sourceMappingURL=styles.css.map */

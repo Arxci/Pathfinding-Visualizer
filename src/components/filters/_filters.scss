@@ -1,0 +1,12 @@
+.filters {
+	background-color: $grey;
+	height: $filter-height;
+
+	&__list {
+		margin: auto;
+		display: flex;
+		align-items: center;
+		height: stretch;
+		gap: 10px;
+	}
+}
