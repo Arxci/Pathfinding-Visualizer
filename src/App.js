@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Filters from './components/filters/Filters'
 import Header from './components/header/Header'
-import Home from './pages/home/Home'
+import Grid from './pages/grid/Grid'
 
 function App() {
 	return (
@@ -11,7 +11,7 @@ function App() {
 				<Filters />
 				<div className="app__pages">
 					<Routes>
-						<Route path="/" element={<Home />} />
+						<Route path="/" element={<Grid />} />
 					</Routes>
 				</div>
 			</BrowserRouter>

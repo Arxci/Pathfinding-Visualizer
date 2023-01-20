@@ -6,6 +6,7 @@
 	from {
 		visibility: hidden;
 		opacity: 0;
+		transform: translateY(-5px);
 	}
 
 	1% {
@@ -16,6 +17,7 @@
 	to {
 		visibility: visible;
 		opacity: 1;
+		transform: translateY(0);
 	}
 }
 .fade-in {
@@ -26,6 +28,7 @@
 	from {
 		visibility: visible;
 		opacity: 1;
+		transform: translateY(0);
 	}
 
 	99% {
@@ -36,6 +39,7 @@
 	to {
 		visibility: hidden;
 		opacity: 0;
+		transform: translateY(-5px);
 	}
 }
 .fade-out {

@@ -1,13 +1,13 @@
 .header {
 	height: $navbar-height;
 	background-color: $dark-grey;
-	position: sticky;
+	z-index: 2;
 
 	&__nav {
 		margin: auto;
 		display: flex;
 		align-items: center;
-		height: stretch;
+		height: 100%;
 
 		&__title {
 			color: $text-primary;

@@ -1,0 +1,18 @@
+.button {
+	width: 12.5rem;
+	height: 2.5rem;
+	position: relative;
+	border: none;
+	outline: none;
+	background-color: $dark-grey;
+	border-radius: 5px;
+	color: $white;
+	cursor: pointer;
+	transition: background-color 150ms ease-in-out, color 150ms ease-in-out;
+	font-size: 14px;
+
+	&:hover {
+		background-color: $primary-main;
+		color: $dark-grey;
+	}
+}

@@ -6,6 +6,7 @@
   from {
     visibility: hidden;
     opacity: 0;
+    transform: translateY(-5px);
   }
   1% {
     visibility: visible;
@@ -14,6 +15,7 @@
   to {
     visibility: visible;
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -21,6 +23,7 @@
   from {
     visibility: hidden;
     opacity: 0;
+    transform: translateY(-5px);
   }
   1% {
     visibility: visible;
@@ -29,6 +32,7 @@
   to {
     visibility: visible;
     opacity: 1;
+    transform: translateY(0);
   }
 }
 .fade-in {
@@ -40,6 +44,7 @@
   from {
     visibility: visible;
     opacity: 1;
+    transform: translateY(0);
   }
   99% {
     visibility: visible;
@@ -48,6 +53,7 @@
   to {
     visibility: hidden;
     opacity: 0;
+    transform: translateY(-5px);
   }
 }
 
@@ -55,6 +61,7 @@
   from {
     visibility: visible;
     opacity: 1;
+    transform: translateY(0);
   }
   99% {
     visibility: visible;
@@ -63,6 +70,7 @@
   to {
     visibility: hidden;
     opacity: 0;
+    transform: translateY(-5px);
   }
 }
 .fade-out {
@@ -128,19 +136,28 @@
   padding: 0 2rem;
 }
 
+@media (max-width: 69.9735em) {
+  .hide-for-mobile {
+    display: none;
+  }
+}
+
+@media (min-width: 70em) {
+  .hide-for-desktop {
+    display: none;
+  }
+}
+
 .header {
-  height: 8rem;
+  height: 4rem;
   background-color: #212121;
-  position: -webkit-sticky;
-  position: sticky;
+  z-index: 2;
 }
 .header__nav {
   margin: auto;
   display: flex;
   align-items: center;
-  height: -webkit-fill-available;
-  height: -moz-available;
-  height: stretch;
+  height: 100%;
 }
 .header__nav__title {
   color: #01baef;
@@ -150,23 +167,76 @@
 .app {
   background-color: #fafafa;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 .app__pages {
+  display: flex;
+  flex-direction: column;
   z-index: 1;
+}
+
+.grid {
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: stretch;
+  height: calc(100vh - 8rem);
+}
+.grid__container {
+  height: calc(100% - 6rem);
+  margin: auto;
+}
+.grid__content {
+  height: 100%;
+  margin: 2rem 0;
+  padding: 1rem;
+  border-radius: 5px;
+  background-color: #212121;
+  display: grid;
+  grid-template-columns: repeat(50, 20px);
+  grid-template-rows: repeat(25, 20px);
+  grid-gap: 5px;
+}
+
+.test {
+  width: 100%;
+  height: 100%;
+  background: #666565;
 }
 
 .filters {
   background-color: #2e2e2e;
   height: 4rem;
+  position: relative;
+  z-index: 5;
 }
 .filters__list {
   margin: auto;
   display: flex;
   align-items: center;
-  height: -webkit-fill-available;
-  height: -moz-available;
-  height: stretch;
+  justify-content: space-between;
+  height: 100%;
   gap: 10px;
+  overflow-x: auto;
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.filters__list::-webkit-scrollbar {
+  display: none;
+}
+.filters__buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.filters__dropdowns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 2.5rem;
+  position: relative;
 }
 
 .dropdown {
@@ -224,6 +294,7 @@
   background-color: #212121;
   top: calc(100% + 0.75rem);
   border-radius: 5px;
+  width: 12.5rem;
 }
 .dropdown__list {
   padding: 0.5rem 0.5rem;
@@ -247,4 +318,71 @@
 }
 .dropdown__item.active {
   color: #01baef;
+}
+
+.pill {
+  min-width: 6rem;
+  height: 2rem;
+  position: relative;
+}
+.pill__btn {
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: stretch;
+  height: -webkit-fill-available;
+  height: -moz-available;
+  height: stretch;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+  background-color: #212121;
+  padding: 0.5rem 0.5rem;
+  border-radius: 16px;
+  cursor: pointer;
+}
+.pill__btn > p {
+  color: #ffffff;
+  font-size: 14px;
+}
+.pill__toggle {
+  position: relative;
+  border-radius: 100%;
+  height: 20px;
+  width: 20px;
+  background-color: #666565;
+}
+.pill__toggle::before {
+  position: absolute;
+  content: "";
+  background-color: #666565;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: background-color 150ms ease-in-out;
+}
+.pill__toggle.active::before {
+  background-color: #01baef;
+}
+
+.button {
+  width: 12.5rem;
+  height: 2.5rem;
+  position: relative;
+  border: none;
+  outline: none;
+  background-color: #212121;
+  border-radius: 5px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 150ms ease-in-out, color 150ms ease-in-out;
+  font-size: 14px;
+}
+.button:hover {
+  background-color: #01baef;
+  color: #212121;
 }/*# sourceMappingURL=styles.css.map */
