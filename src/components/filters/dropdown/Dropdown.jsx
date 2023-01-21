@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 
 const Dropdown = ({
@@ -9,10 +9,24 @@ const Dropdown = ({
 	offsetMultiplier,
 }) => {
 	const [isOpen, setIsOpen] = useState(false)
-	const [dropdownClass, setDropdownClass] = useState('_')
 	const [arrowDirection, setArrowDirection] = useState('')
 
-	const OnToggle = (e) => {
+	//crete dropdown element
+	const div = useMemo(() => {
+		return document.createElement('div')
+	}, [])
+
+	const ul = useMemo(() => {
+		return document.createElement('ul')
+	}, [])
+
+	//add classes
+	div.classList.add('dropdown__items')
+	div.classList.add('has-fade')
+	ul.classList.add('dropdown__list')
+	div.appendChild(ul)
+
+	function OnToggle() {
 		if (isOpen) {
 			OnClose()
 		} else {
@@ -20,52 +34,43 @@ const Dropdown = ({
 		}
 	}
 
-	const OnOpen = () => {
-		if (!isOpen) {
-			setIsOpen(true)
-			setDropdownClass('fade-in')
-			setArrowDirection('rotate-forward')
-		}
+	function OnOpen() {
+		div.classList.remove('fade-out')
+		div.classList.add('fade-in')
+		setArrowDirection('rotate-forward')
+
+		setIsOpen(true)
 	}
 
-	const OnClose = () => {
+	useEffect(() => {
 		if (isOpen) {
-			setIsOpen(false)
-			setArrowDirection('rotate-back')
-			setDropdownClass('fade-out')
+			UpdatePosition()
+			UpdateList()
+			const filters = document.querySelector('.filters')
+			filters.appendChild(div)
+		}
+	}, [isOpen])
+
+	function OnClose() {
+		div.classList.remove('fade-in')
+		div.classList.add('fade-out')
+		setArrowDirection('rotate-back')
+		setIsOpen(false)
+	}
+
+	//update list state
+	function UpdateList() {
+		for (let i = 0; i < ul.childNodes.length; i++) {
+			ul.childNodes[i].classList.remove('active')
+			if (dropdownItems[i].name === currentItem) {
+				ul.childNodes[i].classList.add('active')
+			}
 		}
 	}
 
-	const CreateDropdown = () => {
-		const filters = document.querySelector('.filters')
+	//update dropdown offset
+	function UpdatePosition() {
 		const scroll = document.querySelector('.filters__list')
-
-		let child = filters.lastElementChild
-		if (child && child !== scroll) {
-			filters.removeChild(child)
-			child = filters.lastElementChild
-		}
-
-		const div = document.createElement('div')
-		div.classList.add('dropdown__items')
-		div.classList.add('has-fade')
-		div.classList.add(dropdownClass)
-		const ul = document.createElement('ul')
-		ul.classList.add('dropdown__list')
-		div.appendChild(ul)
-
-		dropdownItems.forEach((item) => {
-			const li = document.createElement('li')
-			li.classList.add('dropdown__item')
-			if (currentItem === item.name) {
-				li.classList.add('active')
-			}
-			const p = document.createElement('p')
-			p.innerText = item.name
-			li.appendChild(p)
-			li.addEventListener('mousedown', () => itemSelected(item.name))
-			ul.appendChild(li)
-		})
 
 		let edgeOffset = scroll.getBoundingClientRect().left
 		const scrollOffset = scroll.scrollLeft
@@ -76,26 +81,35 @@ const Dropdown = ({
 		// prettier-ignore
 		const divOffset = ((edgeOffset + basePadding) + (baseWidth * offsetMultiplier) + (gap * offsetMultiplier)) - scrollOffset
 		div.style.left = divOffset + 'px'
-		filters.appendChild(div)
 	}
 
+	//on scrollbar scroll
 	useEffect(() => {
 		const scroll = document.querySelector('.filters__list')
 
-		scroll.addEventListener('scroll', () => OnClose())
+		scroll.addEventListener('scroll', () => UpdatePosition())
 
-		return scroll.removeEventListener('scroll', () => OnClose())
+		return scroll.removeEventListener('scroll', () => UpdatePosition())
 	}, [])
 
 	useEffect(() => {
-		window.addEventListener('resize', () => OnClose())
+		window.addEventListener('resize', () => UpdatePosition())
 
-		return window.addEventListener('resize', () => OnClose())
+		return window.removeEventListener('resize', () => UpdatePosition())
 	}, [])
 
+	//create out list on load
 	useEffect(() => {
-		CreateDropdown()
-	}, [dropdownClass])
+		dropdownItems.forEach((item) => {
+			const li = document.createElement('li')
+			li.classList.add('dropdown__item')
+			const p = document.createElement('p')
+			p.innerText = item.name
+			li.appendChild(p)
+			li.addEventListener('mousedown', () => itemSelected(item.name))
+			ul.appendChild(li)
+		})
+	}, [])
 
 	return (
 		<div className="dropdown">

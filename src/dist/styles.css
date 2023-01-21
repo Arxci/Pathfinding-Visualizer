@@ -1,5 +1,5 @@
 .has-fade {
-  visibility: hidden;
+  visibility: visible;
 }
 
 @-webkit-keyframes fade-in {
