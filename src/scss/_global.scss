@@ -10,6 +10,10 @@
 .container {
 	max-width: 100rem;
 	padding: 0 2rem;
+
+	@include breakpoint-down(small) {
+		padding: 0 5px;
+	}
 }
 
 //Visibility

@@ -12,8 +12,13 @@
 		height: stretch;
 
 		> p {
-			color: $white;
+			color: $light-grey;
 			font-size: 14px;
+			transition: color 150ms ease-in-out;
+
+			&.active {
+				color: $primary-main;
+			}
 		}
 	}
 
@@ -30,7 +35,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: $white;
+		color: $light-grey;
+		transition: color 150ms ease-in-out;
 
 		&__flipped {
 			animation: fade-out 300ms ease-in-out forwards;
@@ -38,6 +44,10 @@
 
 		&__normal {
 			animation: fade-out 300ms ease-in-out forwards;
+		}
+
+		&.active {
+			color: $primary-main;
 		}
 	}
 

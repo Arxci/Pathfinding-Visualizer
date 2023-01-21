@@ -4,11 +4,9 @@ const usePathfinder = () => {
 	const [currentPathfinder, setCurrentPathfinder] = useState('')
 	const [currentSpeed, setCurrentSpeed] = useState('')
 	const [grid, setGrid] = useState([])
+	const [numOfRows, setNumOfRows] = useState(0)
 
-	const numOfRows = 25
 	const numOfCols = 50
-	const itemHeight = 20
-	const itemWidth = 20
 
 	const allowedPathfinders = [
 		{ name: 'A Star', key: 0 },
@@ -44,7 +42,36 @@ const usePathfinder = () => {
 			}
 		}
 		setGrid(temp)
-	}, [])
+	}, [numOfCols, numOfRows, setGrid])
+
+	useEffect(() => {
+		var gridContent = document.querySelector('.grid__content')
+
+		var gap = parseFloat(
+			window.getComputedStyle(gridContent, null).getPropertyValue('gap')
+		)
+		gap = Math.floor(gap)
+		var minW = parseFloat(
+			window
+				.getComputedStyle(gridContent, null)
+				.getPropertyValue('grid-template-rows')
+		)
+
+		var Wc = document.querySelector('.grid__content').offsetHeight
+		setNumOfRows((Wc + gap) / (minW + gap))
+
+		window.addEventListener('resize', function () {
+			Wc = document.querySelector('.grid__content').offsetHeight
+			minW = parseFloat(
+				window
+					.getComputedStyle(gridContent, null)
+					.getPropertyValue('grid-template-rows')
+			)
+			setNumOfRows((Wc + gap) / (minW + gap))
+		})
+	}, [setNumOfRows])
+
+	useEffect(() => {}, [numOfRows])
 
 	return {
 		allowedPathfinders,
@@ -54,8 +81,8 @@ const usePathfinder = () => {
 		currentSpeed,
 		UpdateCurrentSpeed,
 		grid,
-		itemHeight,
-		itemWidth,
+		numOfCols,
+		numOfRows,
 	}
 }
 

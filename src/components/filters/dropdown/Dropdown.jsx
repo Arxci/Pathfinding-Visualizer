@@ -42,15 +42,6 @@ const Dropdown = ({
 		setIsOpen(true)
 	}
 
-	useEffect(() => {
-		if (isOpen) {
-			UpdatePosition()
-			UpdateList()
-			const filters = document.querySelector('.filters')
-			filters.appendChild(div)
-		}
-	}, [isOpen])
-
 	function OnClose() {
 		div.classList.remove('fade-in')
 		div.classList.add('fade-out')
@@ -74,7 +65,9 @@ const Dropdown = ({
 
 		let edgeOffset = scroll.getBoundingClientRect().left
 		const scrollOffset = scroll.scrollLeft
-		const basePadding = 32
+		const basePadding = parseFloat(
+			window.getComputedStyle(scroll, null).getPropertyValue('padding-left')
+		)
 		const baseWidth = 200
 		const gap = 10
 
@@ -111,6 +104,15 @@ const Dropdown = ({
 		})
 	}, [])
 
+	useEffect(() => {
+		if (isOpen) {
+			UpdatePosition()
+			UpdateList()
+			const filters = document.querySelector('.filters')
+			filters.appendChild(div)
+		}
+	}, [isOpen])
+
 	return (
 		<div className="dropdown">
 			<button
@@ -119,9 +121,13 @@ const Dropdown = ({
 				onBlur={() => OnClose()}
 			>
 				<div className="dropdown__name">
-					<p>{name}</p>
+					<p className={currentItem === '' ? '' : 'active'}>{name}</p>
 					<KeyboardArrowDownIcon
-						className={'dropdown__icon ' + arrowDirection}
+						className={
+							currentItem === ''
+								? 'dropdown__icon ' + arrowDirection
+								: 'dropdown__icon ' + arrowDirection + ' ' + 'active'
+						}
 					/>
 				</div>
 			</button>
