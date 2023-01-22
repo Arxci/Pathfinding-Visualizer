@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import usePathfinder from '../../hooks/usePathfinder'
 import Button from './button/Button'
 import Dropdown from './dropdown/Dropdown'
@@ -37,7 +37,7 @@ const Filters = () => {
 				<div className="filters__buttons">
 					<Button name={'Clear Walls'} />
 					<Button name={'Create Maze'} />
-					<Button name={'Run Visualizer'} />
+					<Button name={'Run Visualizer'} color={'primary'} />
 				</div>
 			</ul>
 		</nav>

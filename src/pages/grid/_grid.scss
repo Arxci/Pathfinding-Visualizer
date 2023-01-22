@@ -8,18 +8,32 @@
 	}
 
 	&__content {
-		height: calc(100vh - ($navbar-height + $filter-height + 30px));
-		border-radius: 5px;
+		padding: 2px;
+		height: calc(100vh - ($navbar-height + $filter-height + 14px));
 		background-color: $dark-grey;
 		display: grid;
 		grid-template-columns: repeat(50, auto);
 		grid-template-rows: repeat(auto-fill, minmax(30px, 1fr));
-		gap: 0px;
+		gap: 2px;
 	}
 }
 
-.test {
+.grid__item {
 	min-height: 30px;
 	background: $light-grey;
-	border: 2px solid $dark-grey;
+	cursor: pointer;
+	transition: background-color 300ms ease-in-out;
+	display: flex;
+	align-items: center;
+	position: relative;
+	justify-content: center;
+
+	&.wall {
+		background-color: $dark-grey;
+	}
+
+	&__start {
+		position: absolute;
+		color: $dark-grey;
+	}
 }

@@ -58,7 +58,7 @@ const usePathfinder = () => {
 		)
 
 		var Wc = document.querySelector('.grid__content').offsetHeight
-		setNumOfRows((Wc + gap) / (minW + gap))
+		setNumOfRows(Math.floor((Wc + gap) / (minW + gap)))
 
 		window.addEventListener('resize', function () {
 			Wc = document.querySelector('.grid__content').offsetHeight
@@ -67,7 +67,7 @@ const usePathfinder = () => {
 					.getComputedStyle(gridContent, null)
 					.getPropertyValue('grid-template-rows')
 			)
-			setNumOfRows((Wc + gap) / (minW + gap))
+			setNumOfRows(Math.floor((Wc + gap) / (minW + gap)))
 		})
 	}, [setNumOfRows])
 

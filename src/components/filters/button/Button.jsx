@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Button = ({ name, onClicked }) => {
+const Button = ({ name, onClicked, color }) => {
 	return (
-		<button className="button" onClick={() => onClicked()}>
+		<button className={'button ' + color} onClick={() => onClicked()}>
 			{name}
 		</button>
 	)
@@ -10,6 +10,7 @@ const Button = ({ name, onClicked }) => {
 
 Button.defaultProps = {
 	name: 'Button',
+	color: 'default',
 }
 
 export default Button

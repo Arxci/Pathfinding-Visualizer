@@ -55,7 +55,7 @@
 		width: stretch;
 		position: absolute;
 		background-color: $dark-grey;
-		top: calc(100% + 0.75rem);
+		top: calc(100% + 10px);
 		border-radius: 5px;
 		width: 12.5rem;
 	}
@@ -72,6 +72,10 @@
 		cursor: pointer;
 		color: $faded-white;
 		padding: 0.5rem 0.5rem;
+		border: none;
+		outline: none;
+		background-color: $dark-grey;
+		text-align: left;
 		transition: color 150ms ease-in-out, background-color 150ms ease-in-out;
 
 		> p {

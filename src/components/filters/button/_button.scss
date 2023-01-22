@@ -4,15 +4,32 @@
 	position: relative;
 	border: none;
 	outline: none;
-	background-color: $dark-grey;
+
 	border-radius: 5px;
-	color: $white;
+
 	cursor: pointer;
-	transition: background-color 150ms ease-in-out, color 150ms ease-in-out;
+	transition: filter 150ms ease-in-out, color 150ms ease-in-out;
+
 	font-size: 14px;
 
-	&:hover {
+	&.default {
+		background-color: $dark-grey;
+		color: $white;
+
+		&:hover,
+		&:focus {
+			filter: brightness(1.15);
+		}
+	}
+
+	&.primary {
 		background-color: $primary-main;
 		color: $dark-grey;
+
+		&:hover,
+		&:focus {
+			background-color: $primary-light;
+			filter: brightness(1.05);
+		}
 	}
 }

@@ -94,7 +94,7 @@ const Dropdown = ({
 	//create out list on load
 	useEffect(() => {
 		dropdownItems.forEach((item) => {
-			const li = document.createElement('li')
+			const li = document.createElement('button')
 			li.classList.add('dropdown__item')
 			const p = document.createElement('p')
 			p.innerText = item.name
