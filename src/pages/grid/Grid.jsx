@@ -25,8 +25,28 @@ const Grid = () => {
 		e.appendChild(start)
 	}
 
+	function PlaceTargetNode(e) {
+		const target = document.createElement('i')
+		target.classList.add('fa-solid')
+		target.classList.add('fa-bullseye')
+		target.classList.add('grid__item__target')
+		e.classList.add('target')
+		e.appendChild(target)
+	}
+
+	function HandleTargetPlacement(e) {
+		if (e.buttons === 1 && e.target.className === 'grid__item' && e.ctrlKey) {
+			const target = document.querySelector('.grid__item__target')
+			if (target) {
+				target.parentElement.classList.remove('target')
+				target.parentElement.removeChild(target)
+			}
+			PlaceTargetNode(e.target)
+		}
+	}
+
 	function HandleStartPlacement(e) {
-		if (e.buttons === 1 && e.target.className === 'grid__item') {
+		if (e.buttons === 1 && e.target.className === 'grid__item' && !e.ctrlKey) {
 			const start = document.querySelector('.grid__item__start')
 			if (start) {
 				start.parentElement.classList.remove('start')
@@ -41,6 +61,7 @@ const Grid = () => {
 			HandleWallPlacement(e)
 		} else if (e.buttons) {
 			HandleStartPlacement(e)
+			HandleTargetPlacement(e)
 		}
 	}
 
@@ -65,6 +86,9 @@ const Grid = () => {
 				newEle.addEventListener('mouseover', (e) => HandleWallPlacement(e))
 				if (rowCount === Math.floor(numOfRows / 2) && colCount === 8) {
 					PlaceStartNode(newEle)
+				}
+				if (rowCount === Math.floor(numOfRows / 2) && colCount === 41) {
+					PlaceTargetNode(newEle)
 				}
 
 				container.appendChild(newEle)

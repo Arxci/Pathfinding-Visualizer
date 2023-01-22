@@ -11,6 +11,8 @@ const Filters = () => {
 		UpdateCurrentPathfinder,
 		currentSpeed,
 		UpdateCurrentSpeed,
+		GenerateMaze,
+		ClearWalls,
 	} = usePathfinder()
 
 	useEffect(() => {})
@@ -35,8 +37,8 @@ const Filters = () => {
 					/>
 				</div>
 				<div className="filters__buttons">
-					<Button name={'Clear Walls'} />
-					<Button name={'Create Maze'} />
+					<Button name={'Clear Walls'} onPressed={ClearWalls} />
+					<Button name={'Create Maze'} onPressed={GenerateMaze} />
 					<Button name={'Run Visualizer'} color={'primary'} />
 				</div>
 			</ul>
