@@ -13,6 +13,7 @@ const Filters = () => {
 		UpdateCurrentSpeed,
 		GenerateMaze,
 		ClearWalls,
+		StartVisualizer,
 	} = usePathfinder()
 
 	useEffect(() => {})
@@ -39,7 +40,11 @@ const Filters = () => {
 				<div className="filters__buttons">
 					<Button name={'Clear Walls'} onPressed={ClearWalls} />
 					<Button name={'Create Maze'} onPressed={GenerateMaze} />
-					<Button name={'Run Visualizer'} color={'primary'} />
+					<Button
+						name={'Run Visualizer'}
+						color={'primary'}
+						onPressed={StartVisualizer}
+					/>
 				</div>
 			</ul>
 		</nav>
