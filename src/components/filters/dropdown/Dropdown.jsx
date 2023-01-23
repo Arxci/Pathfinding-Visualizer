@@ -62,13 +62,16 @@ const Dropdown = ({
 	//update dropdown offset
 	function UpdatePosition() {
 		const scroll = document.querySelector('.filters__list')
+		const dropdown = document.querySelector('.dropdown')
 
 		let edgeOffset = scroll.getBoundingClientRect().left
 		const scrollOffset = scroll.scrollLeft
 		const basePadding = parseFloat(
 			window.getComputedStyle(scroll, null).getPropertyValue('padding-left')
 		)
-		const baseWidth = 200
+		const baseWidth = parseInt(
+			window.getComputedStyle(dropdown, null).getPropertyValue('width')
+		)
 		const gap = 10
 
 		// prettier-ignore

@@ -86,12 +86,18 @@ const Grid = ({ grid, numOfCols, numOfRows, needsReset, isRunning }) => {
 
 		for (let i = 0; i < numOfRows; i++) {
 			for (let j = 0; j < numOfCols; j++) {
-				if (j === 41 && i === Math.floor(numOfRows / 2)) {
+				if (
+					j === numOfCols - Math.floor(numOfCols / 2 / 2) - 1 &&
+					i === Math.floor(numOfRows / 2)
+				) {
 					temp.push({
 						key: numOfCols * i + j,
 						className: 'grid__item target',
 					})
-				} else if (j === 8 && i === Math.floor(numOfRows / 2)) {
+				} else if (
+					j === Math.floor(numOfCols / 2 / 2) &&
+					i === Math.floor(numOfRows / 2)
+				) {
 					temp.push({
 						key: numOfCols * i + j,
 						className: 'grid__item start',

@@ -12,8 +12,7 @@ function App() {
 	const [currentSpeed, setCurrentSpeed] = useState('')
 	const [grid, setGrid] = useState([])
 	const [numOfRows, setNumOfRows] = useState(0)
-
-	const numOfCols = 50
+	const [numOfCols, setNumOfCols] = useState(0)
 
 	const allowedPathfinders = [
 		{ name: 'A Star', key: 0 },
@@ -180,8 +179,8 @@ function App() {
 		var t
 		if (temp.previous !== undefined) {
 			t = setInterval(() => {
-				const gridContent = document.querySelector('.grid__content').children
-				const gridItem = gridContent[GetGridIndex(temp.i, temp.j)]
+				var gridContent = document.querySelector('.grid__content').children
+				var gridItem = gridContent[GetGridIndex(temp.i, temp.j)]
 				gridItem.classList.toggle('closed__node')
 				gridItem.classList.toggle('best__path')
 				path.push(temp.previous)
@@ -191,7 +190,7 @@ function App() {
 					setNeedsReset(true)
 					setIsRunning(false)
 				}
-			}, 25)
+			}, GetSearchSpeed())
 		}
 	}
 
@@ -236,6 +235,19 @@ function App() {
 		}
 	}
 
+	function GetSearchSpeed() {
+		switch (currentSpeed) {
+			case '':
+				return 25
+			case 'Slow':
+				return 100
+			case 'Medium':
+				return 25
+			case 'Fast':
+				return 5
+		}
+	}
+
 	function StartAStar() {
 		var openSet = []
 		var closedSet = []
@@ -258,7 +270,7 @@ function App() {
 				setIsRunning(false)
 				setNeedsReset(true)
 			}
-		}, 15)
+		}, GetSearchSpeed())
 	}
 
 	function UpdateNeighbors(i, j) {
@@ -393,9 +405,16 @@ function App() {
 				.getComputedStyle(gridContent, null)
 				.getPropertyValue('grid-template-rows')
 		)
+		var minY = parseFloat(
+			window
+				.getComputedStyle(gridContent, null)
+				.getPropertyValue('grid-template-columns')
+		)
 
 		var Wc = document.querySelector('.grid__content').offsetHeight
 		setNumOfRows(Math.floor((Wc + gap) / (minW + gap)))
+		var Yc = document.querySelector('.grid__content').offsetWidth
+		setNumOfCols(Math.floor((Yc + gap) / (minY + gap)))
 
 		window.addEventListener('resize', function () {
 			Wc = document.querySelector('.grid__content').offsetHeight
@@ -405,6 +424,15 @@ function App() {
 					.getPropertyValue('grid-template-rows')
 			)
 			setNumOfRows(Math.floor((Wc + gap) / (minW + gap)))
+
+			var Yc = document.querySelector('.grid__content').offsetWidth
+
+			minY = parseFloat(
+				window
+					.getComputedStyle(gridContent, null)
+					.getPropertyValue('grid-template-columns')
+			)
+			setNumOfCols(Math.floor((Yc + gap) / (minY + gap)))
 		})
 	}, [setNumOfRows])
 

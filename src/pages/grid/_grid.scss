@@ -3,18 +3,33 @@
 	height: calc(100vh - ($navbar-height + $filter-height));
 
 	&__container {
+		height: 100%;
 		margin: auto;
 		padding: 5px;
+
+		@include breakpoint-up(xlarge) {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
 	}
 
 	&__content {
+		width: stretch;
+		max-height: 100rem;
 		padding: 2px;
 		height: calc(100vh - ($navbar-height + $filter-height + 14px));
+		min-height: 50rem;
 		background-color: $grey;
 		display: grid;
-		grid-template-columns: repeat(50, auto);
+		grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
 		grid-template-rows: repeat(auto-fill, minmax(30px, 1fr));
 		gap: 2px;
+
+		@include breakpoint-up(xlarge) {
+			grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+			grid-template-rows: repeat(auto-fill, minmax(40px, 1fr));
+		}
 	}
 }
 
@@ -27,6 +42,20 @@
 	align-items: center;
 	position: relative;
 	justify-content: center;
+	aspect-ratio: 1 / 1;
+
+	@include breakpoint-up(xlarge) {
+		font-size: 27.5px;
+		min-height: 40px;
+	}
+
+	&.start {
+		background-color: $yellow;
+	}
+
+	&.target {
+		background-color: $error;
+	}
 
 	&.wall {
 		background-color: $dark-grey;
@@ -60,10 +89,11 @@
 
 	&__start,
 	&__target {
-		position: absolute;
 		color: $dark-grey;
+		position: absolute;
 		animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
 	}
+
 	&__none {
 		display: none;
 	}

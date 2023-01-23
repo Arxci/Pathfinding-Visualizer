@@ -3,6 +3,11 @@
 	background-color: $dark-grey;
 	z-index: 2;
 
+	@include breakpoint-up(xlarge) {
+		$navbar-height: 8rem;
+		height: $navbar-height;
+	}
+
 	&__nav {
 		margin: auto;
 		display: flex;
@@ -17,6 +22,10 @@
 			color: $text-primary;
 
 			font-size: 2rem;
+
+			@include breakpoint-up(xlarge) {
+				font-size: 4rem;
+			}
 		}
 	}
 }

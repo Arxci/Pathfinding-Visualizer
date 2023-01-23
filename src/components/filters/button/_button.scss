@@ -4,14 +4,18 @@
 	position: relative;
 	border: none;
 	outline: none;
-
 	border-radius: 5px;
 
 	cursor: pointer;
 	transition: filter 150ms ease-in-out, color 150ms ease-in-out,
 		background-color 300ms ease-in-out;
-
 	font-size: 14px;
+
+	@include breakpoint-up(xlarge) {
+		height: 4rem;
+		width: 20rem;
+		font-size: 28px;
+	}
 
 	&:hover,
 	&:focus {
