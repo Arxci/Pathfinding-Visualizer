@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import usePathfinder from '../../hooks/usePathfinder'
 import Button from './button/Button'
 import Dropdown from './dropdown/Dropdown'
 
-const Filters = () => {
-	const {
-		allowedPathfinders,
-		allowedSpeeds,
-		currentPathfinder,
-		UpdateCurrentPathfinder,
-		currentSpeed,
-		UpdateCurrentSpeed,
-		GenerateMaze,
-		ClearWalls,
-		StartVisualizer,
-	} = usePathfinder()
-
-	useEffect(() => {})
-
+const Filters = ({
+	allowedPathfinders,
+	allowedSpeeds,
+	currentPathfinder,
+	UpdateCurrentPathfinder,
+	currentSpeed,
+	UpdateCurrentSpeed,
+	GenerateMaze,
+	ClearWalls,
+	StartVisualizer,
+	ResetNodes,
+	isRunning,
+	needsReset,
+}) => {
 	return (
 		<nav className="filters">
 			<ul className="filters__list container">
@@ -38,11 +36,30 @@ const Filters = () => {
 					/>
 				</div>
 				<div className="filters__buttons">
-					<Button name={'Clear Walls'} onPressed={ClearWalls} />
-					<Button name={'Create Maze'} onPressed={GenerateMaze} />
+					<Button
+						name={'Clear Walls'}
+						onPressed={ClearWalls}
+						color={isRunning ? 'faint' : 'default'}
+					/>
+					<Button
+						name={'Create Maze'}
+						onPressed={GenerateMaze}
+						color={isRunning ? 'faint' : 'default'}
+					/>
+					<Button
+						name={'Clear Path'}
+						onPressed={ResetNodes}
+						color={needsReset ? 'primary' : 'faint'}
+					/>
 					<Button
 						name={'Run Visualizer'}
-						color={'primary'}
+						color={
+							currentPathfinder !== ''
+								? needsReset || isRunning
+									? 'faint'
+									: 'primary'
+								: 'faint'
+						}
 						onPressed={StartVisualizer}
 					/>
 				</div>

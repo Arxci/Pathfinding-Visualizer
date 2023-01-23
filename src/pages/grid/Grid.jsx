@@ -1,101 +1,110 @@
-import React, { useEffect } from 'react'
-import usePathfinder from '../../hooks/usePathfinder'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import React, { useEffect, useState } from 'react'
 
-const Grid = () => {
-	const { grid, numOfRows } = usePathfinder()
+const Grid = ({ grid, numOfCols, numOfRows, needsReset, isRunning }) => {
+	const [items, setItems] = useState(null)
 
-	function HandleWallPlacement(e) {
+	function HandleWallPlacement(e, pos) {
 		if (
 			e.buttons === 1 &&
 			e.shiftKey &&
 			(e.target.className === 'grid__item' ||
 				e.target.className === 'grid__item wall')
 		) {
-			e.target.classList.toggle('wall')
+			if (!isRunning) {
+				if (!needsReset) {
+					items.forEach((item) => {
+						if (item.key === pos) {
+							e.target.classList.toggle('wall')
+						}
+					})
+				}
+			}
 		}
 	}
 
-	function PlaceStartNode(e) {
-		const start = document.createElement('i')
-		start.classList.add('fa-solid')
-		start.classList.add('fa-arrow-right')
-		start.classList.add('grid__item__start')
-		e.classList.add('start')
-		e.appendChild(start)
-	}
-
-	function PlaceTargetNode(e) {
-		const target = document.createElement('i')
-		target.classList.add('fa-solid')
-		target.classList.add('fa-bullseye')
-		target.classList.add('grid__item__target')
-		e.classList.add('target')
-		e.appendChild(target)
-	}
-
-	function HandleTargetPlacement(e) {
+	function HandleTargetPlacement(e, pos) {
 		if (e.buttons === 1 && e.target.className === 'grid__item' && e.ctrlKey) {
-			const target = document.querySelector('.grid__item__target')
-			if (target) {
-				target.parentElement.classList.remove('target')
-				target.parentElement.removeChild(target)
+			if (!isRunning) {
+				if (!needsReset) {
+					let tempArr = [...items]
+
+					tempArr.forEach((item) => {
+						if (item.className === 'grid__item target') {
+							item.className = 'grid__item'
+						}
+					})
+
+					tempArr.forEach((item) => {
+						if (item.key === pos) {
+							item.className = 'grid__item target'
+						}
+					})
+
+					setItems(tempArr)
+				}
 			}
-			PlaceTargetNode(e.target)
 		}
 	}
 
-	function HandleStartPlacement(e) {
-		if (e.buttons === 1 && e.target.className === 'grid__item' && !e.ctrlKey) {
-			const start = document.querySelector('.grid__item__start')
-			if (start) {
-				start.parentElement.classList.remove('start')
-				start.parentElement.removeChild(start)
+	function HandleStartPlacement(e, pos) {
+		if (
+			e.buttons === 1 &&
+			e.target.className === 'grid__item' &&
+			!e.ctrlKey &&
+			!e.shiftKey
+		) {
+			if (!isRunning) {
+				if (!needsReset) {
+					let tempArr = [...items]
+
+					tempArr.forEach((item) => {
+						if (item.className === 'grid__item start') {
+							item.className = 'grid__item'
+						}
+					})
+
+					tempArr.forEach((item) => {
+						if (item.key === pos) {
+							item.className = 'grid__item start'
+						}
+					})
+
+					setItems(tempArr)
+				}
 			}
-			PlaceStartNode(e.target)
 		}
 	}
 
-	function ItemClicked(e) {
-		if (e.shiftKey && e.buttons) {
-			HandleWallPlacement(e)
-		} else if (e.buttons) {
-			HandleStartPlacement(e)
-			HandleTargetPlacement(e)
-		}
+	function ItemClicked(e, pos) {
+		HandleWallPlacement(e, pos)
+		HandleStartPlacement(e, pos)
+		HandleTargetPlacement(e, pos)
 	}
 
 	const MakeGrid = () => {
-		const container = document.querySelector('.grid__content')
+		var temp = []
 
-		var child = container.lastElementChild
-		while (child) {
-			container.removeChild(child)
-			child = container.lastElementChild
+		for (let i = 0; i < numOfRows; i++) {
+			for (let j = 0; j < numOfCols; j++) {
+				if (j === 41 && i === Math.floor(numOfRows / 2)) {
+					temp.push({
+						key: numOfCols * i + j,
+						className: 'grid__item target',
+					})
+				} else if (j === 8 && i === Math.floor(numOfRows / 2)) {
+					temp.push({
+						key: numOfCols * i + j,
+						className: 'grid__item start',
+					})
+				} else {
+					temp.push({
+						key: numOfCols * i + j,
+						className: 'grid__item',
+					})
+				}
+			}
 		}
-
-		var rowCount = 0
-		var colCount = 0
-
-		grid.forEach((row) => {
-			colCount = 0
-			row.forEach((col) => {
-				const newEle = document.createElement('span')
-				newEle.classList.toggle('grid__item')
-				newEle.addEventListener('mousedown', (e) => ItemClicked(e))
-				newEle.addEventListener('mouseover', (e) => HandleWallPlacement(e))
-				if (rowCount === Math.floor(numOfRows / 2) && colCount === 8) {
-					PlaceStartNode(newEle)
-				}
-				if (rowCount === Math.floor(numOfRows / 2) && colCount === 41) {
-					PlaceTargetNode(newEle)
-				}
-
-				container.appendChild(newEle)
-				colCount++
-			})
-			rowCount++
-		})
+		setItems(temp)
 	}
 
 	useEffect(() => {
@@ -107,7 +116,32 @@ const Grid = () => {
 	return (
 		<div className="grid">
 			<div className="grid__container container">
-				<div className="grid__content"></div>
+				<div className="grid__content">
+					{items &&
+						items.map((item) => (
+							<span
+								onMouseDown={(e) => ItemClicked(e, item.key)}
+								onMouseEnter={(e) => HandleWallPlacement(e, item.key)}
+								key={item.key}
+								className={item.className}
+							>
+								<i
+									className={
+										item.className === 'grid__item start'
+											? 'fa-solid fa-arrow-right grid__item__start'
+											: 'grid__item__none'
+									}
+								></i>
+								<i
+									className={
+										item.className === 'grid__item target'
+											? 'fa-solid fa-bullseye grid__item__target'
+											: 'grid__item__none'
+									}
+								></i>
+							</span>
+						))}
+				</div>
 			</div>
 		</div>
 	)
