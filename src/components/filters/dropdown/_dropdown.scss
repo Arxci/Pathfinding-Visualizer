@@ -28,6 +28,10 @@
 			&.active {
 				color: $white;
 			}
+
+			&.disabled {
+				color: $faded-white;
+			}
 		}
 	}
 
@@ -38,6 +42,10 @@
 		background-color: $dark-grey;
 		border-radius: 5px;
 		cursor: pointer;
+
+		&.disabled {
+			pointer-events: none;
+		}
 	}
 
 	&__icon {
@@ -57,6 +65,10 @@
 
 		&.active {
 			color: $white;
+		}
+
+		&.disabled {
+			color: $faded-white;
 		}
 	}
 

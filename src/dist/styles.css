@@ -257,8 +257,13 @@
   width: stretch;
   height: calc(100vh - 8rem);
 }
+@media (min-width: 200rem) {
+  .grid {
+    height: calc(100vh - 16rem);
+  }
+}
 .grid__container {
-  height: 100%;
+  height: calc(100vh - (8rem + 14px));
   margin: auto;
   padding: 5px;
 }
@@ -267,15 +272,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    height: calc(100vh - (16rem + 14px));
   }
 }
 .grid__content {
   width: -webkit-fill-available;
   width: -moz-available;
   width: stretch;
-  max-height: 100rem;
   padding: 2px;
-  height: calc(100vh - (8rem + 14px));
+  height: 100%;
   min-height: 50rem;
   background-color: #2e2e2e;
   display: grid;
@@ -285,8 +290,9 @@
 }
 @media (min-width: 200rem) {
   .grid__content {
-    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-    grid-template-rows: repeat(auto-fill, minmax(40px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
+    gap: 4px;
   }
 }
 
@@ -304,7 +310,7 @@
 @media (min-width: 200rem) {
   .grid__item {
     font-size: 27.5px;
-    min-height: 40px;
+    min-height: 50px;
   }
 }
 .grid__item.start {
@@ -379,6 +385,21 @@
   align-items: center;
   gap: 10px;
 }
+@media (min-width: 200rem) {
+  .filters__buttons {
+    gap: 20px;
+  }
+}
+.filters__tooltips {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+@media (min-width: 200rem) {
+  .filters__tooltips {
+    gap: 20px;
+  }
+}
 .filters__dropdowns {
   display: flex;
   align-items: center;
@@ -389,6 +410,11 @@
 @media (min-width: 200rem) {
   .filters__dropdowns {
     height: 5rem;
+  }
+}
+@media (min-width: 200rem) {
+  .filters__dropdowns {
+    gap: 20px;
   }
 }
 
@@ -428,6 +454,9 @@
 .dropdown__name > p.active {
   color: #ffffff;
 }
+.dropdown__name > p.disabled {
+  color: rgba(255, 255, 255, 0.4);
+}
 .dropdown__btn {
   width: -webkit-fill-available;
   width: -moz-available;
@@ -439,6 +468,9 @@
   background-color: #212121;
   border-radius: 5px;
   cursor: pointer;
+}
+.dropdown__btn.disabled {
+  pointer-events: none;
 }
 .dropdown__icon {
   display: flex;
@@ -457,6 +489,9 @@
 }
 .dropdown__icon.active {
   color: #ffffff;
+}
+.dropdown__icon.disabled {
+  color: rgba(255, 255, 255, 0.4);
 }
 .dropdown__items {
   width: -webkit-fill-available;
@@ -591,6 +626,10 @@
   background-color: #01baef;
   color: #212121;
 }
+.button.red {
+  background-color: #ef233c;
+  color: #ffffff;
+}
 .button.faint {
   background-color: #212121;
   color: rgba(255, 255, 255, 0.4);
@@ -598,4 +637,80 @@
 }
 .button.faint:hover, .button.faint:focus {
   filter: brightness(1);
+}
+
+.tooltip {
+  color: rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: default;
+}
+@media (min-width: 200rem) {
+  .tooltip {
+    gap: 10px;
+  }
+}
+.tooltip__wrapper {
+  border-radius: 5px;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+@media (min-width: 200rem) {
+  .tooltip__wrapper {
+    width: 50px;
+    height: 50px;
+  }
+}
+.tooltip__wrapper.default {
+  background-color: #212121;
+}
+.tooltip__wrapper.yellow {
+  background-color: #f4b400;
+}
+.tooltip__wrapper.red {
+  background-color: #ef233c;
+}
+.tooltip__wrapper__info {
+  position: absolute;
+  background-color: rgba(33, 33, 33, 0.9);
+  border: 1px solid #666565;
+  padding: 0.5rem 0.5rem;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  z-index: 1;
+  border-radius: 5px;
+  left: 110%;
+  pointer-events: none;
+}
+@media (min-width: 200rem) {
+  .tooltip__wrapper__info {
+    font-size: 40px;
+  }
+}
+.tooltip__icon {
+  color: #212121;
+}
+@media (min-width: 200rem) {
+  .tooltip__icon {
+    font-size: 30px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.tooltip__text {
+  font-size: 12px;
+}
+@media (min-width: 200rem) {
+  .tooltip__text {
+    font-size: 40px;
+  }
 }/*# sourceMappingURL=styles.css.map */

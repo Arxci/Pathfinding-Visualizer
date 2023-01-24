@@ -7,9 +7,11 @@ const Dropdown = ({
 	itemSelected,
 	currentItem,
 	offsetMultiplier,
+	isRunning,
 }) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [arrowDirection, setArrowDirection] = useState('')
+	const [disabled, setDisabled] = useState('')
 
 	//crete dropdown element
 	const div = useMemo(() => {
@@ -116,20 +118,38 @@ const Dropdown = ({
 		}
 	}, [isOpen])
 
+	useEffect(() => {
+		if (isRunning) {
+			setDisabled('disabled')
+		} else {
+			setDisabled('')
+		}
+	}, [isRunning])
+
 	return (
-		<div className="dropdown">
+		<div className={'dropdown ' + disabled}>
 			<button
-				className="dropdown__btn"
+				className={'dropdown__btn ' + disabled}
 				onClick={(e) => OnToggle(e)}
 				onBlur={() => OnClose()}
 			>
 				<div className="dropdown__name">
-					<p className={currentItem === '' ? '' : 'active'}>{name}</p>
+					<p
+						className={
+							currentItem === '' ? '' + disabled : 'active ' + disabled
+						}
+					>
+						{name}
+					</p>
 					<KeyboardArrowDownIcon
 						className={
 							currentItem === ''
-								? 'dropdown__icon ' + arrowDirection
-								: 'dropdown__icon ' + arrowDirection + ' ' + 'active'
+								? 'dropdown__icon ' + arrowDirection + ' ' + disabled
+								: 'dropdown__icon ' +
+								  arrowDirection +
+								  ' ' +
+								  'active ' +
+								  disabled
 						}
 					/>
 				</div>

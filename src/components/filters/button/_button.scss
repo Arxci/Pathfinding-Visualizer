@@ -32,6 +32,11 @@
 		color: $dark-grey;
 	}
 
+	&.red {
+		background-color: $error;
+		color: $white;
+	}
+
 	&.faint {
 		background-color: $dark-grey;
 		color: $faded-white;

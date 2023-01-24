@@ -24,6 +24,20 @@
 		display: flex;
 		align-items: center;
 		gap: 10px;
+
+		@include breakpoint-up(xlarge) {
+			gap: 20px;
+		}
+	}
+
+	&__tooltips {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+
+		@include breakpoint-up(xlarge) {
+			gap: 20px;
+		}
 	}
 
 	&__dropdowns {
@@ -35,6 +49,10 @@
 
 		@include breakpoint-up(xlarge) {
 			height: 5rem;
+		}
+
+		@include breakpoint-up(xlarge) {
+			gap: 20px;
 		}
 	}
 }

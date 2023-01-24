@@ -2,8 +2,12 @@
 	width: stretch;
 	height: calc(100vh - ($navbar-height + $filter-height));
 
+	@include breakpoint-up(xlarge) {
+		height: calc(100vh - ($navbar-height * 2 + $filter-height * 2));
+	}
+
 	&__container {
-		height: 100%;
+		height: calc(100vh - ($navbar-height + $filter-height + 14px));
 		margin: auto;
 		padding: 5px;
 
@@ -11,14 +15,14 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			height: calc(100vh - ($navbar-height * 2 + $filter-height * 2 + 14px));
 		}
 	}
 
 	&__content {
 		width: stretch;
-		max-height: 100rem;
 		padding: 2px;
-		height: calc(100vh - ($navbar-height + $filter-height + 14px));
+		height: 100%;
 		min-height: 50rem;
 		background-color: $grey;
 		display: grid;
@@ -27,8 +31,9 @@
 		gap: 2px;
 
 		@include breakpoint-up(xlarge) {
-			grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-			grid-template-rows: repeat(auto-fill, minmax(40px, 1fr));
+			grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+			grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
+			gap: 4px;
 		}
 	}
 }
@@ -46,7 +51,7 @@
 
 	@include breakpoint-up(xlarge) {
 		font-size: 27.5px;
-		min-height: 40px;
+		min-height: 50px;
 	}
 
 	&.start {

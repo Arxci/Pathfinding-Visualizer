@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Button from './button/Button'
 import Dropdown from './dropdown/Dropdown'
+import Tooltip from './tooltip/Tooltip'
 
 const Filters = ({
 	allowedPathfinders,
@@ -21,6 +22,7 @@ const Filters = ({
 			<ul className="filters__list container">
 				<div className="filters__dropdowns">
 					<Dropdown
+						isRunning={isRunning}
 						name={currentPathfinder === '' ? 'Pathfinder' : currentPathfinder}
 						dropdownItems={allowedPathfinders} //array of objects {name: '', key: 0}
 						itemSelected={UpdateCurrentPathfinder} //event to fire when dropdown item is selected
@@ -28,11 +30,32 @@ const Filters = ({
 						offsetMultiplier={0}
 					/>
 					<Dropdown
+						isRunning={isRunning}
 						name={currentSpeed === '' ? 'Select Speed' : currentSpeed}
 						dropdownItems={allowedSpeeds} //array of objects {speed: '', key: 0}
 						itemSelected={UpdateCurrentSpeed} //event to fire when dropdown item is selected
 						currentItem={currentSpeed} //current item for updating visuals
 						offsetMultiplier={1}
+					/>
+				</div>
+				<div className="filters__tooltips">
+					<Tooltip
+						icon={''}
+						backgroundColor={'default'}
+						tooltip={'Wall'}
+						info={'Shift Left Click A Node To Place'}
+					/>
+					<Tooltip
+						icon={'fa solid fa-arrow-right'}
+						backgroundColor={'yellow'}
+						tooltip={'Start'}
+						info={'Left Click A Node To Place'}
+					/>
+					<Tooltip
+						icon={'fa solid fa-bullseye'}
+						backgroundColor={'red'}
+						tooltip={'Target'}
+						info={'Ctrl Left Click A Node To Place'}
 					/>
 				</div>
 				<div className="filters__buttons">
@@ -52,7 +75,7 @@ const Filters = ({
 						color={needsReset ? 'primary' : 'faint'}
 					/>
 					<Button
-						name={'Run Visualizer'}
+						name="Run Visualizer"
 						color={
 							currentPathfinder !== ''
 								? needsReset || isRunning

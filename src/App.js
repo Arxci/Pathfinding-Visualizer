@@ -7,7 +7,6 @@ import { useState, useEffect } from 'react'
 function App() {
 	const [isRunning, setIsRunning] = useState(false)
 	const [needsReset, setNeedsReset] = useState(false)
-
 	const [currentPathfinder, setCurrentPathfinder] = useState('')
 	const [currentSpeed, setCurrentSpeed] = useState('')
 	const [grid, setGrid] = useState([])
@@ -24,6 +23,8 @@ function App() {
 		{ name: 'Medium', key: 1 },
 		{ name: 'Fast', key: 2 },
 	]
+
+	var t
 
 	const UpdateCurrentPathfinder = (newPathfinder) => {
 		setCurrentPathfinder(newPathfinder)
@@ -122,11 +123,7 @@ function App() {
 	}
 
 	function StartVisualizer() {
-		if (GetEndPos().length === 0) {
-			console.log('place end node')
-			return
-		} else if (GetStartPos().length === 0) {
-			console.log('place start node')
+		if (needsReset) {
 			return
 		}
 
@@ -141,6 +138,7 @@ function App() {
 				}
 				setIsRunning(true)
 				StartAStar()
+
 				break
 			case "Dijkstra's":
 				break
@@ -171,12 +169,11 @@ function App() {
 		}
 	}
 
-	function ReBuildPath(current, timer) {
-		clearInterval(timer)
+	function ReBuildPath(current, t) {
+		clearInterval(t)
 		var path = []
 		var temp = current
 		path.push(temp)
-		var t
 		if (temp.previous !== undefined) {
 			t = setInterval(() => {
 				var gridContent = document.querySelector('.grid__content').children
@@ -194,7 +191,7 @@ function App() {
 		}
 	}
 
-	function RunAStar(openSet, closedSet, timer, end) {
+	function RunAStar(openSet, closedSet, t, end) {
 		var lowestFValue = 0
 		for (var i = 0; i < openSet.length; i++) {
 			if (openSet[i].f < openSet[lowestFValue].f) {
@@ -204,7 +201,7 @@ function App() {
 		var current = openSet[lowestFValue]
 
 		if (current === end) {
-			ReBuildPath(current, timer)
+			ReBuildPath(current, t)
 		}
 
 		RemoveFromArray(openSet, current)
@@ -263,10 +260,10 @@ function App() {
 		gridItem.classList.toggle('start__node')
 		gridItem = gridContent[GetGridIndex(end.i, end.j)]
 		gridItem.classList.toggle('end__node')
-		var timer = setInterval(() => {
-			RunAStar(openSet, closedSet, timer, end)
+		t = setInterval(() => {
+			RunAStar(openSet, closedSet, t, end)
 			if (openSet.length <= 0) {
-				clearInterval(timer)
+				clearInterval(t)
 				setIsRunning(false)
 				setNeedsReset(true)
 			}
@@ -417,6 +414,9 @@ function App() {
 		setNumOfCols(Math.floor((Yc + gap) / (minY + gap)))
 
 		window.addEventListener('resize', function () {
+			gap = parseFloat(
+				window.getComputedStyle(gridContent, null).getPropertyValue('gap')
+			)
 			Wc = document.querySelector('.grid__content').offsetHeight
 			minW = parseFloat(
 				window
@@ -433,6 +433,9 @@ function App() {
 					.getPropertyValue('grid-template-columns')
 			)
 			setNumOfCols(Math.floor((Yc + gap) / (minY + gap)))
+
+			setIsRunning(false)
+			setNeedsReset(true)
 		})
 	}, [setNumOfRows])
 
