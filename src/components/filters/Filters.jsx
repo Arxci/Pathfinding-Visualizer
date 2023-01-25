@@ -23,6 +23,7 @@ const Filters = ({
 				<div className="filters__dropdowns">
 					<Dropdown
 						isRunning={isRunning}
+						needsReset={needsReset}
 						name={currentPathfinder === '' ? 'Pathfinder' : currentPathfinder}
 						dropdownItems={allowedPathfinders} //array of objects {name: '', key: 0}
 						itemSelected={UpdateCurrentPathfinder} //event to fire when dropdown item is selected
@@ -31,6 +32,7 @@ const Filters = ({
 					/>
 					<Dropdown
 						isRunning={isRunning}
+						needsReset={needsReset}
 						name={currentSpeed === '' ? 'Select Speed' : currentSpeed}
 						dropdownItems={allowedSpeeds} //array of objects {speed: '', key: 0}
 						itemSelected={UpdateCurrentSpeed} //event to fire when dropdown item is selected

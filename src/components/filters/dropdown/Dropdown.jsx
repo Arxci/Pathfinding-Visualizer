@@ -8,6 +8,7 @@ const Dropdown = ({
 	currentItem,
 	offsetMultiplier,
 	isRunning,
+	needsReset,
 }) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [arrowDirection, setArrowDirection] = useState('')
@@ -119,12 +120,12 @@ const Dropdown = ({
 	}, [isOpen])
 
 	useEffect(() => {
-		if (isRunning) {
+		if (isRunning || needsReset) {
 			setDisabled('disabled')
 		} else {
 			setDisabled('')
 		}
-	}, [isRunning])
+	}, [isRunning, needsReset])
 
 	return (
 		<div className={'dropdown ' + disabled}>

@@ -16,6 +16,7 @@ function App() {
 	const allowedPathfinders = [
 		{ name: 'A Star', key: 0 },
 		{ name: "Dijkstra's", key: 1 },
+		{ name: 'Depth First Search', key: 1 },
 	]
 
 	const allowedSpeeds = [
@@ -45,30 +46,6 @@ function App() {
 					}
 				}
 			}
-		}
-	}
-
-	function Partition(h, minX, maxX, minY, maxY) {
-		if (h) {
-			if (maxX - minX < 4) {
-				return
-			}
-
-			var y = Math.floor(randomNumber(minY, maxY) / 2) * 2
-			addHWall(minX, maxX, y)
-
-			Partition(!h, minX, maxX, minY, y - 1)
-			Partition(!h, minX, maxX, y + 1, maxY)
-		} else {
-			if (maxY - minY < 4) {
-				return
-			}
-
-			var x = Math.floor(randomNumber(minX, maxX) / 2) * 2
-			addVWall(minY, maxY, x)
-
-			Partition(!h, minX, x - 1, minY, maxY)
-			Partition(!h, x + 1, maxX, minY, maxY)
 		}
 	}
 
@@ -141,6 +118,22 @@ function App() {
 
 				break
 			case "Dijkstra's":
+				for (var i = 0; i < numOfRows; i++) {
+					for (var j = 0; j < numOfCols; j++) {
+						UpdateNeighbors(i, j)
+					}
+				}
+				setIsRunning(true)
+				StartDijkstras()
+				break
+			case 'Depth First Search':
+				for (var i = 0; i < numOfRows; i++) {
+					for (var j = 0; j < numOfCols; j++) {
+						UpdateNeighbors(i, j)
+					}
+				}
+				setIsRunning(true)
+				StartDFS()
 				break
 		}
 	}
@@ -245,6 +238,143 @@ function App() {
 		}
 	}
 
+	function RunDFS(openSet, closedSet, end, current, timeout) {
+		setTimeout(() => {
+			RemoveFromArray(openSet, current)
+
+			var neighbors = current.neighbors
+
+			if (neighbors.length === 0) {
+				setIsRunning(false)
+				setNeedsReset(true)
+				return
+			}
+
+			if (current === end) {
+				ReBuildPath(current, undefined)
+				return
+			}
+
+			for (var neighbor of neighbors) {
+				if (neighbor === end) {
+					ReBuildPath(current, undefined)
+					return
+				}
+			}
+
+			const gridContent = document.querySelector('.grid__content').children
+			var gridItem = gridContent[GetGridIndex(current.i, current.j)]
+
+			for (var neighbor of neighbors) {
+				closedSet.push(current)
+
+				gridItem = gridContent[GetGridIndex(current.i, current.j)]
+				gridItem.classList.add('closed__node')
+				gridItem.classList.toggle('open__node')
+
+				if (!closedSet.includes(neighbor)) {
+					neighbor.previous = current //update previous node
+					openSet.push(neighbor)
+					gridItem = gridContent[GetGridIndex(neighbor.i, neighbor.j)]
+					gridItem.classList.add('open__node')
+					RunDFS(openSet, closedSet, end, neighbor, GetSearchSpeed())
+					return
+				}
+			}
+
+			var previous = current.previous
+			if (previous !== undefined) {
+				openSet.push(previous)
+				closedSet.push(current)
+				gridItem = gridContent[GetGridIndex(previous.i, previous.j)]
+				gridItem.classList.remove('closed__node')
+				gridItem.classList.remove('open__node')
+				RunDFS(openSet, closedSet, end, previous, 0)
+			}
+
+			if (openSet.length === 0) {
+				setIsRunning(false)
+				setNeedsReset(true)
+			}
+		}, timeout)
+	}
+
+	function StartDFS() {
+		var openSet = [] //nodes being looked at
+		var closedSet = [] // nodes seen
+
+		var start = grid[GetStartPos()[0]][GetStartPos()[1]]
+		var end = grid[GetEndPos()[0]][GetEndPos()[1]]
+		openSet.push(start) // add start to nodes being looked at
+
+		//update visuals of start and end node
+		const gridContent = document.querySelector('.grid__content').children
+		var gridItem = gridContent[GetGridIndex(start.i, start.j)]
+		gridItem.classList.toggle('start__node')
+		gridItem = gridContent[GetGridIndex(end.i, end.j)]
+		gridItem.classList.toggle('end__node')
+
+		var current = openSet[0] //current = the first element in open set
+
+		RunDFS(openSet, closedSet, end, current, GetSearchSpeed()) //run dfs
+	}
+
+	function RunDijkstras(openSet, closedSet, t, end) {
+		var current = openSet[0]
+
+		if (current === end) {
+			ReBuildPath(current, t)
+		}
+
+		RemoveFromArray(openSet, current)
+		closedSet.push(current)
+		const gridContent = document.querySelector('.grid__content').children
+		var gridItem = gridContent[GetGridIndex(current.i, current.j)]
+		gridItem.classList.toggle('open__node')
+		gridItem.classList.toggle('closed__node')
+
+		var neighbors = current.neighbors
+		for (var neighbor of neighbors) {
+			if (!closedSet.includes(neighbor)) {
+				var tempG = current.g + 1
+				neighbor.g = tempG
+				neighbor.previous = current
+
+				if (!openSet.includes(neighbor)) {
+					neighbor.g = tempG
+					openSet.push(neighbor)
+					gridItem = gridContent[GetGridIndex(neighbor.i, neighbor.j)]
+					gridItem.classList.toggle('open__node')
+				}
+			}
+		}
+	}
+
+	function StartDijkstras() {
+		var openSet = []
+		var closedSet = []
+		var start = grid[GetStartPos()[0]][GetStartPos()[1]]
+		var end = grid[GetEndPos()[0]][GetEndPos()[1]]
+		openSet.push(start)
+		start.g = 0
+
+		const gridContent = document.querySelector('.grid__content').children
+		var gridItem = gridContent[GetGridIndex(start.i, start.j)]
+		gridItem.classList.toggle('open__node')
+		gridItem.classList.toggle('start__node')
+		gridItem = gridContent[GetGridIndex(end.i, end.j)]
+		gridItem.classList.toggle('end__node')
+
+		t = setInterval(() => {
+			RunDijkstras(openSet, closedSet, t, end)
+			if (openSet.length <= 0) {
+				clearInterval(t)
+				setIsRunning(false)
+				setNeedsReset(true)
+			}
+		}, GetSearchSpeed())
+	}
+
 	function StartAStar() {
 		var openSet = []
 		var closedSet = []
@@ -273,22 +403,23 @@ function App() {
 	function UpdateNeighbors(i, j) {
 		const gridItem = grid[i][j]
 		var neighbors = []
+
 		if (i - 1 >= 0) {
-			//same column, one row down
+			//same column, one row up
 			if (!IsWall(i - 1, j)) {
 				neighbors.push(grid[i - 1][j])
 			}
 		}
-		if (i + 1 < grid.length) {
-			//same column, one row up
-			if (!IsWall(i + 1, j)) {
-				neighbors.push(grid[i + 1][j])
-			}
-		}
-		if (j + 1 < grid[i].length) {
+		if (j + 1 < numOfCols) {
 			//same row, one column to the right
 			if (!IsWall(i, j + 1)) {
 				neighbors.push(grid[i][j + 1])
+			}
+		}
+		if (i + 1 < numOfRows) {
+			//same column, one row down
+			if (!IsWall(i + 1, j)) {
+				neighbors.push(grid[i + 1][j])
 			}
 		}
 		if (j - 1 >= 0) {
@@ -302,6 +433,30 @@ function App() {
 
 	function h(x1, x2, y1, y2) {
 		return Math.abs(x1 - y1) + Math.abs(x2 - y2)
+	}
+
+	function Partition(h, minX, maxX, minY, maxY) {
+		if (h) {
+			if (maxX - minX < 4) {
+				return
+			}
+
+			var y = Math.floor(randomNumber(minY, maxY) / 2) * 2
+			addHWall(minX, maxX, y)
+
+			Partition(!h, minX, maxX, minY, y - 1)
+			Partition(!h, minX, maxX, y + 1, maxY)
+		} else {
+			if (maxY - minY < 4) {
+				return
+			}
+
+			var x = Math.floor(randomNumber(minX, maxX) / 2) * 2
+			addVWall(minY, maxY, x)
+
+			Partition(!h, minX, x - 1, minY, maxY)
+			Partition(!h, x + 1, maxX, minY, maxY)
+		}
 	}
 
 	function addHWall(minX, maxX, y) {
