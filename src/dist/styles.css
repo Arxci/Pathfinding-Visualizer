@@ -306,6 +306,8 @@
   position: relative;
   justify-content: center;
   aspect-ratio: 1/1;
+  overflow: visible;
+  position: relative;
 }
 @media (min-width: 200rem) {
   .grid__item {
@@ -313,41 +315,73 @@
     min-height: 50px;
   }
 }
+.grid__item__dropdown {
+  position: absolute;
+  z-index: 4;
+  background-color: #2e2e2e;
+  width: 100%;
+  color: #212121;
+  padding: 0.3rem;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.grid__item__dropdown.upward {
+  top: -400%;
+}
+.grid__item__dropdown.bottom {
+  top: 100%;
+}
+.grid__item__dropdown__item {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 5px;
+}
+.grid__item__dropdown__item.yellow {
+  background-color: #f4b400;
+}
+.grid__item__dropdown__item.red {
+  background-color: #ef233c;
+}
+.grid__item__dropdown__item.default {
+  background-color: #212121;
+}
+.grid__item__dropdown.disabled {
+  display: none;
+}
 .grid__item.start {
   background-color: #f4b400;
 }
 .grid__item.target {
   background-color: #ef233c;
 }
+.grid__item.closed__node, .grid__item.open__node, .grid__item.best__path, .grid__item.start__node, .grid__item.end__node {
+  -webkit-animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
+          animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
+}
 .grid__item.wall {
   background-color: #212121;
   -webkit-animation: scale-down 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
           animation: scale-down 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
+  z-index: 1;
 }
 .grid__item.open__node {
   background-color: #01baef;
-  -webkit-animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
-          animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
 }
 .grid__item.closed__node {
   background-color: #2e2e2e;
-  -webkit-animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
-          animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
 }
 .grid__item.best__path {
   background-color: #f4b400;
-  -webkit-animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
-          animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
 }
 .grid__item.start__node {
   background-color: #f4b400;
-  -webkit-animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
-          animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
 }
 .grid__item.end__node {
   background-color: #ef233c;
-  -webkit-animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
-          animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
 }
 .grid__item__start, .grid__item__target {
   color: #212121;
@@ -713,4 +747,7 @@
   .tooltip__text {
     font-size: 40px;
   }
+}
+.tooltip__none {
+  display: none;
 }/*# sourceMappingURL=styles.css.map */

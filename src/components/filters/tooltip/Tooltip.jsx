@@ -1,10 +1,12 @@
 import React from 'react'
 import { useEffect } from 'react'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 const Tooltip = ({ backgroundColor, icon, tooltip, info }) => {
 	const [isHovering, setIsHovering] = useState(false)
 	const [currentFade, setCurrentFade] = useState('')
+
+	const displayTooltip = useRef(window.screen.width >= 1000)
 
 	useEffect(() => {
 		if (isHovering) {
@@ -14,6 +16,16 @@ const Tooltip = ({ backgroundColor, icon, tooltip, info }) => {
 		}
 	}, [isHovering])
 
+	useEffect(() => {
+		let handler = () => {
+			displayTooltip.current = window.screen.width >= 1000
+		}
+
+		window.addEventListener('resize', () => handler())
+
+		return () => window.removeEventListener('resize', () => handler())
+	}, [])
+
 	return (
 		<div
 			className="tooltip"
@@ -22,7 +34,13 @@ const Tooltip = ({ backgroundColor, icon, tooltip, info }) => {
 		>
 			<div className={'tooltip__wrapper ' + backgroundColor}>
 				<i className={'tooltip__icon ' + icon} />
-				<p className={'tooltip__wrapper__info has-fade ' + currentFade}>
+				<p
+					className={
+						displayTooltip.current
+							? 'tooltip__wrapper__info has-fade ' + currentFade
+							: 'tooltip__none'
+					}
+				>
 					{info}
 				</p>
 			</div>

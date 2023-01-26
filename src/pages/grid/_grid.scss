@@ -48,10 +48,57 @@
 	position: relative;
 	justify-content: center;
 	aspect-ratio: 1 / 1;
+	overflow: visible;
+	position: relative;
 
 	@include breakpoint-up(xlarge) {
 		font-size: 27.5px;
 		min-height: 50px;
+	}
+
+	&__dropdown {
+		position: absolute;
+		z-index: 4;
+		background-color: $grey;
+		width: 100%;
+		color: $dark-grey;
+		padding: 0.3rem;
+		border-radius: 5px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+
+		&.upward {
+			top: -400%;
+		}
+
+		&.bottom {
+			top: 100%;
+		}
+
+		&__item {
+			height: 30px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border: 5px;
+
+			&.yellow {
+				background-color: $yellow;
+			}
+
+			&.red {
+				background-color: $error;
+			}
+
+			&.default {
+				background-color: $dark-grey;
+			}
+		}
+
+		&.disabled {
+			display: none;
+		}
 	}
 
 	&.start {
@@ -62,34 +109,38 @@
 		background-color: $error;
 	}
 
+	&.closed__node,
+	&.open__node,
+	&.best__path,
+	&.start__node,
+	&.end__node {
+		animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
+	}
+
 	&.wall {
 		background-color: $dark-grey;
 		animation: scale-down 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
+		z-index: 1;
 	}
 
 	&.open__node {
 		background-color: $primary-main;
-		animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
 	}
 
 	&.closed__node {
 		background-color: $grey;
-		animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
 	}
 
 	&.best__path {
 		background-color: $yellow;
-		animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
 	}
 
 	&.start__node {
 		background-color: $yellow;
-		animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
 	}
 
 	&.end__node {
 		background-color: $error;
-		animation: scale-in 500ms cubic-bezier(0.48, 0, 0, 1.8) forwards;
 	}
 
 	&__start,
