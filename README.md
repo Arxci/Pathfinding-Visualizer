@@ -18,7 +18,7 @@ Usage
 
 Run Command
 
-  npm run start
+    npm run start
   
   
 ![Pathfinder](https://user-images.githubusercontent.com/57776596/216868908-a22dbbef-6a19-4f51-87e6-2aec888392b2.png)
