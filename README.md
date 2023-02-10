@@ -1,17 +1,29 @@
-# Pathfinding Visualizer
+# Path Finding Visualier
+==============
 
-This project was made in react. Its a visualing appealing project designed to find the path from the start and target node. The website supports three different pathinders
+This project is visual representation of a pthfinder. Create mazes, adjust your start and end node positions and select the pathfinder you want. This application currently supports Dijkstra's, A Star, and Depth First Search.
 
-### `Dijkstra's`
-### `A Star`
-### `Depth First Search`
+# What I Learned
 
+* How to create mazes using recursive division
+* Leveraging components in ReactJS to build out a front end application
+* Responsive CSS grid designs
+
+# Difficulties Experienced
+
+* It was complicated developing alogrithms that were fast and performant
+* Animating and stlying nodes on the grid
+
+Usage
+------------
+
+Run Command
+
+  npm run start
+
+	You will play as white, the AI will play as black. Select a piece and select the position you want to move it to.
+	- Red squares are pieces you can capture
+	- Grey circles are place that piece can move to
+  
+  
 ![Pathfinder](https://user-images.githubusercontent.com/57776596/216868908-a22dbbef-6a19-4f51-87e6-2aec888392b2.png)
-
-### Commands
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.
-
-
