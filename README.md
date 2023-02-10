@@ -20,10 +20,6 @@ Usage
 Run Command
 
   npm run start
-
-	You will play as white, the AI will play as black. Select a piece and select the position you want to move it to.
-	- Red squares are pieces you can capture
-	- Grey circles are place that piece can move to
   
   
 ![Pathfinder](https://user-images.githubusercontent.com/57776596/216868908-a22dbbef-6a19-4f51-87e6-2aec888392b2.png)
